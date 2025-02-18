@@ -1,0 +1,39 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Enquete</title>
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    <h1>{{ question.question_text }}</h1>
+
+    <ul>
+        {% for choice in choices %}
+            <li>
+                {{ choice.choice_text }} - {{ choice.votes }} votos
+                {% if total_votes > 0 %}
+                    ({{ choice.percentage|floatformat:2 }}%)
+                {% else %}
+                    (0.00%)
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total de Votos: {{ total_votes }}</h3>
+
+    <br>
+    <a href="{% url 'polls:detail' question.id %}">
+        <button>Votar Novamente</button>
+    </a>
+
+    <a href="{% url 'polls:index' %}">
+        <button>Voltar para Lista de Enquetes</button>
+    </a>
+</body>
+</html>
